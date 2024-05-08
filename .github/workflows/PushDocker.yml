@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     # Only runs when take push events on certain branch
-    branches: [ linux6.6 ]
+    branches: [ linux-6.6 ]
     # Only runs take push changes Dockerfile
     paths:
       - 'docker/xuantie-qemu/Dockerfile'
@@ -28,7 +28,7 @@ jobs:
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.DOCKER_REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -37,5 +37,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: ./docker/xuantie-qemu/Dockerfile
-          tags: linux-xuantie-kernel/xuantie-qemu:latest
+          tags: ghcr.io/ruyisdk/linux-xuantie-kernel/xuantie-qemu:latest
           push: true
