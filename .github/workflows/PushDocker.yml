@@ -36,5 +36,6 @@ jobs:
         id: build
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/xuantie-qemu/
+          file: ./docker/xuantie-qemu/Dockerfile
+          tags: linux-xuantie-kernel/xuantie-qemu:latest
           push: true
