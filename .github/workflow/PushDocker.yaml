@@ -1,0 +1,40 @@
+name: PostMerge Push Docker
+
+on:
+  # This workflow only runs when triggered by a push event also can be manually triggered
+  workflow_dispatch:
+  push:
+    # Only runs when take push events on certain branch
+    branches: [ linux6.6 ]
+    # Only runs take push changes Dockerfile
+    paths:
+      - 'docker/xuantie-qemu/Dockerfile'
+
+env:
+  DOCKER_REGISTRY: ghcr.io/ruyisdk/linux-xuantie-kernel/xuantie-qemu
+
+jobs:
+  docker-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./docker/xuantie-qemu/
+          push: true
