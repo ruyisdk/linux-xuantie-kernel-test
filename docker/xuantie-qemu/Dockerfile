@@ -24,6 +24,9 @@ RUN set -x \
     z3 \
     texinfo \
     sudo \
+    expect \
+    cpio \
+    rsync \
 # python3
     python3 \
     python3-pip \

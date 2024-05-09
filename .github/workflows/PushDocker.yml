@@ -10,9 +10,6 @@ on:
     paths:
       - 'docker/xuantie-qemu/Dockerfile'
 
-env:
-  DOCKER_REGISTRY: ghcr.io/ruyisdk/linux-xuantie-kernel/xuantie-qemu
-
 jobs:
   docker-build-push:
     runs-on: ubuntu-latest
