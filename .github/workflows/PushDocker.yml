@@ -9,9 +9,10 @@ on:
     # Only runs take push changes Dockerfile
     paths:
       - 'docker/xuantie-qemu/Dockerfile'
+      - 'docker/ruyi-toolchain/Dockerfile'
 
 jobs:
-  docker-build-push:
+  docker-qemu-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,10 +30,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
-        id: build
+      - name: Build and push xuantie-qemu
         uses: docker/build-push-action@v5
         with:
           file: ./docker/xuantie-qemu/Dockerfile
           tags: ghcr.io/ruyisdk/linux-xuantie-kernel/xuantie-qemu:latest
+          push: true
+
+      - name: Build and push ruyi-toolchain
+        uses: docker/build-push-action@v5
+        with:
+          file: ./docker/ruyi-toolchain/Dockerfile
+          tags: ghcr.io/ruyisdk/linux-xuantie-kernel/ruyi-toolchain:latest
           push: true
