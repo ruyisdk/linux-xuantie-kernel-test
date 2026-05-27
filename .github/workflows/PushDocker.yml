@@ -10,6 +10,7 @@ on:
     paths:
       - 'docker/xuantie-qemu/Dockerfile'
       - 'docker/ruyi-toolchain/Dockerfile'
+      - '.github/workflows/PushDocker.yml'
 
 jobs:
   docker-qemu-push:
