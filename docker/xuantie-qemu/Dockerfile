@@ -104,18 +104,33 @@ RUN set -x \
         colorlog \
     && : # last line
 
-# install qemu
+# install xuantie cross-compilation toolchain
 RUN set -x \
-    && wget -qc http://yocbook.oss-cn-hangzhou.aliyuncs.com/depot/qemu/Xuantie-qemu-x86_64-Ubuntu-20.04-V4.2.9-B20240416-0338.tar.gz -O qemu_package.tar.gz\
-    && tar -xzf qemu_package.tar.gz \
-    && rm qemu_package.tar.gz \
-    && mv install qemu \
+    && wget -qc https://occ-oss-prod.oss-cn-hangzhou.aliyuncs.com/resource//1777015432925/Xuantie-900-gcc-linux-6.6.36-glibc-x86_64-V3.4.0-20260323.tar.gz -O toolchain.tar.gz \
+    && tar -xzf toolchain.tar.gz -C /opt \
+    && rm toolchain.tar.gz \
     && : # last line
 
+# install xuantie linux SDK
+RUN set -x \
+    && wget -qc https://occ-oss-prod.oss-cn-hangzhou.aliyuncs.com/resource//1777269751788/xuantie-linux-V1.3.0.tar.gz -O linux_sdk.tar.gz \
+    && mkdir -p /opt/xuantie-linux-sdk \
+    && tar -xzf linux_sdk.tar.gz -C /opt/xuantie-linux-sdk \
+    && rm linux_sdk.tar.gz \
+    && : # last line
+
+# install qemu
+RUN set -x \
+    && wget -qc https://occ-oss-prod.oss-cn-hangzhou.aliyuncs.com/resource//1775267528397/xuantie-qemu-x86_64-Ubuntu-20.04-V5.4.1.tar.gz -O qemu_package.tar.gz \
+    && mkdir -p /qemu \
+    && tar -xzf qemu_package.tar.gz -C /qemu \
+    && rm qemu_package.tar.gz \
+    && : # last line
 
 # Set environment variables
-
-ENV PATH=${PATH}:/qemu/bin
+ENV XUANTIE_TOOLCHAIN=/opt/Xuantie-900-gcc-linux-6.6.36-glibc-x86_64-V3.4.0
+ENV XUANTIE_LINUX_SDK=/opt/xuantie-linux-sdk/archived
+ENV PATH=${PATH}:/qemu/bin:${XUANTIE_TOOLCHAIN}/bin
 
 WORKDIR /root
 
