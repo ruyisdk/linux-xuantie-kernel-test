@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     # Only runs when take push events on certain branch
-    branches: [ linux-6.6 ]
+    branches: [ linux-6.6, update-xuantie-qemu-docker ]
     # Only runs take push changes Dockerfile
     paths:
       - 'docker/xuantie-qemu/Dockerfile'
@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: ./docker/xuantie-qemu/Dockerfile
-          tags: ghcr.io/ruyisdk/linux-xuantie-kernel/xuantie-qemu:latest
+          tags: ghcr.io/ruyisdk/linux-xuantie-kernel/xuantie-qemu:${{ github.ref == 'refs/heads/linux-6.6' && 'latest' || 'test' }}
           push: true
 
       - name: Build and push ruyi-toolchain
