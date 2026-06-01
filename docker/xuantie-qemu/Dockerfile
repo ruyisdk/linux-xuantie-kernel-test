@@ -45,6 +45,10 @@ RUN set -x \
     libtool \
     device-tree-compiler \
     patchutils \
+    dwarves \
+# cross-compilation toolchains
+    gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu \
 # gdb dependencies
     libncurses* \
     libncurses5-dev \
